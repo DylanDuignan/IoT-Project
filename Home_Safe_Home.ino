@@ -1,26 +1,3 @@
-/*
-    Hello World.ino
-    2013 Copyright (c) Seeed Technology Inc.  All right reserved.
-
-    Author:Loovee
-    2013-9-18
-
-    Grove - Serial LCD RGB Backlight demo.
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
 
 #include <Keypad.h>
 #include <Wire.h>
@@ -28,13 +5,14 @@
 
 rgb_lcd lcd;
 
-const int colorR = 255;
-const int colorG = 0;
+const int colorR = 0;
+const int colorG = 255;
 const int colorB = 0;
 const byte ROWS = 4;                /*Define the number of rows*/
 const byte COLS = 4;                /*Define the number of columns*/
-const char PASSWORD[4] = "1234";    /*Define the password*/
-double bal = 0;                     /*Define Balance*/
+const char PASSWORD[4] = "1245";    /*Define the password*/
+double cashMoney = 0;                     /*Define Balance*/
+char userInput = 0;
 
 char keys[ROWS][COLS] = {
   {'1','2','3', 'A'},
@@ -66,23 +44,41 @@ void setup() {
 }
 
 void loop() {
-    
     char key = keypad.getKey();     /*Get received character from keypad*/
 
-    if (key)
-    {
-          lcd.clear();
-          lcd.setCursor(0,0);
-          lcd.print("IT WORKS");  
-        
-          Serial.println(key);              /*Debug print received character to serial port*/
+    
+          Serial.println(key);
 
+          if(key){
+          Serial.begin(9600);
+    // set up the LCD's number of columns and rows:
+    lcd.begin(16, 2);
+    lcd.setCursor(0,0);            /*Set the cursor to column 0*/
+    lcd.setRGB(colorR, colorG, colorB);
+
+    // Print a message to the LCD.
+    lcd.print("Enter PIN");
+     
+      
+        
+         
+      
          if ((key >= '0') && (key <= '9'))
          {
-          lcd.setCursor(index,1);               /*Move Cursor to next place on LCD*/
-          lcd.print(key);                 /*Print received character to LCD*/
-          currentPassword[index] = key;   /*Move received character in character array*/
-          index++;                              /*Increase index by 1*/
+                       /*Print received character to LCD*/
+          currentPassword[index] = key; 
+          for(int x=0; x<4; x++)
+          {
+            lcd.setCursor(x,1); 
+      lcd.print( currentPassword[x]);
+          }
+          
+          
+          
+          /*Move received character in character array*/
+          index++;    
+          
+          /*Increase index by 1*/
 
           if (index >= 4)       
           /*We have 4 characters*/      
@@ -91,14 +87,86 @@ void loop() {
 
             if((currentPassword[0] == PASSWORD[0]) && (currentPassword[1] == PASSWORD[1]) && (currentPassword[2] == PASSWORD[2]) && (currentPassword[3] == PASSWORD[3]))
             {
-              lcd.setCursor(0,1);
-              lcd.print("Bal: €{bal}");
+              lcd.setCursor(0,0);
+              lcd.clear();
+                lcd.print("1. Depo/Withdraw");
+                lcd.setCursor(0,1);
+                lcd.print("2. Check Balance");
+
+
+          char input1 = keypad.getKey();     /*Get received character from keypad*/
+
+    
+          Serial.println(input1);
+          if(input1)
+          {
+            
+          
+                if(input1 == "1")
+                {
+                 do
+                 {
+                 lcd.clear();
+                 lcd.setCursor(0,0);
+                 lcd.print("1=5 2=10 4=20 5=50");
+                 lcd.setCursor(0,1);
+                 lcd.print("7=100 8=500 0=Exit");
+                 
+                 userInput = keypad.getKey() ;
+                 /*switch(userInput)
+                 case 1: cashMoney += 5; break;
+                 case 2: cashMoney += 10; break; 
+                 case 4: cashMoney += 20; break;
+                 case 5: cashMoney += 50; break;
+                 case 7: cashMoney += 100; break;
+                 case 8: cashMoney += 500; break;
+                 case 0: break; */
+                 if(userInput)
+                 {
+                  if(userInput == "1")
+                  {
+                    cashMoney += 5;
+                  }
+                  else if (userInput == "2")
+                  {
+                    cashMoney += 10;
+                  }
+                  else if (userInput == "2")
+                  {
+                    cashMoney += 20;
+                  }else if (userInput == "2")
+                  {
+                    cashMoney += 50;
+                  }else if (userInput == "2")
+                  {
+                    cashMoney += 100;
+                  }else if (userInput == "2")
+                  {
+                    cashMoney += 500;
+                  }
+                 }
+                  
+                 
+                 
+                 
+                }while(userInput != 0 );
+                }    
+          }
+          else{
+            lcd.setCursor(0,1);
+                lcd.print("Invalid PIN");
                 
-            }
+                for(int i=0; i<4; i++)
+                {
+                  currentPassword[i] = 0; 
+                }
+                
           }
          }
-         }
-    }
+          } 
+          }
+          
+          }    }
 
 
 
