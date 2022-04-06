@@ -10,7 +10,7 @@ const int colorG = 255;
 const int colorB = 0;
 const byte ROWS = 4;                /*Define the number of rows*/
 const byte COLS = 4;                /*Define the number of columns*/
-const char PASSWORD[4] = "1245";    /*Define the password*/
+const char PASSWORD[4] = "2085";    /*Define the password*/
 double cashMoney = 0;                     /*Define Balance*/
 char userInput = 0;
 
@@ -92,67 +92,23 @@ void loop() {
                 lcd.print("1. Depo/Withdraw");
                 lcd.setCursor(0,1);
                 lcd.print("2. Check Balance");
-
-
-          char input1 = keypad.getKey();     /*Get received character from keypad*/
-
-    
-          Serial.println(input1);
-          if(input1)
+              char userChoice = keypad.getKey();
+              Serial.println(userChoice);
+              if(userChoice){
+          Serial.begin(9600);
+          // set up the LCD's number of columns and rows:
+        
+          if (userChoice == '1')
           {
-            
-          
-                if(input1 == "1")
-                {
-                 do
-                 {
-                 lcd.clear();
-                 lcd.setCursor(0,0);
-                 lcd.print("1=5 2=10 4=20 5=50");
-                 lcd.setCursor(0,1);
-                 lcd.print("7=100 8=500 0=Exit");
-                 
-                 userInput = keypad.getKey() ;
-                 /*switch(userInput)
-                 case 1: cashMoney += 5; break;
-                 case 2: cashMoney += 10; break; 
-                 case 4: cashMoney += 20; break;
-                 case 5: cashMoney += 50; break;
-                 case 7: cashMoney += 100; break;
-                 case 8: cashMoney += 500; break;
-                 case 0: break; */
-                 if(userInput)
-                 {
-                  if(userInput == "1")
-                  {
-                    cashMoney += 5;
-                  }
-                  else if (userInput == "2")
-                  {
-                    cashMoney += 10;
-                  }
-                  else if (userInput == "2")
-                  {
-                    cashMoney += 20;
-                  }else if (userInput == "2")
-                  {
-                    cashMoney += 50;
-                  }else if (userInput == "2")
-                  {
-                    cashMoney += 100;
-                  }else if (userInput == "2")
-                  {
-                    cashMoney += 500;
-                  }
-                 }
-                  
-                 
-                 
-                 
-                }while(userInput != 0 );
-                }    
+             lcd.setCursor(0,0);
+              lcd.clear();
+                lcd.print("1. Deposit");
+                lcd.setCursor(0,1);
+                lcd.print("2. Withdraw");
           }
+            }
           else{
+            lcd.setRGB(255, 0, 0);
             lcd.setCursor(0,1);
                 lcd.print("Invalid PIN");
                 
@@ -165,9 +121,8 @@ void loop() {
          }
           } 
           }
-          
-          }    }
-
+          }
+          }    
 
 
 
