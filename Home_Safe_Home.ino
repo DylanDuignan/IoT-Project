@@ -1,16 +1,18 @@
+#include <Servo.h>
 #include <Keypad.h>
 #include <Wire.h>
 #include "rgb_lcd.h"
 
 rgb_lcd lcd;
 
-const int colorR = 255;
-const int colorG = 0;
+const int colorR = 0;
+const int colorG = 255;
 const int colorB = 0;
 const byte ROWS = 4;                /*Define the number of rows*/
 const byte COLS = 4;                /*Define the number of columns*/
-const char PASSWORD[4] = "1245";    /*Define the password*/
+const char PASSWORD[4] = "2085";    /*Define the password*/
 double cashMoney = 0;                     /*Define Balance*/
+char userInput = 0;
 
 char keys[ROWS][COLS] = {
   {'1','2','3', 'A'},
@@ -22,6 +24,7 @@ byte colPins[COLS] = {5, 4, 3, 2}; //connect to the row pinouts of the keypad
 byte rowPins[ROWS] = {9, 8, 7, 6}; //connect to the column pinouts of the keypad
 
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
+Servo myservo;
 
 char currentPassword[4];            /*Character Array for storing received password*/
 char index = 0;                     /*Index for storing received character*/
@@ -38,7 +41,8 @@ void setup() {
     // Print a message to the LCD.
     lcd.print("Enter PIN");
 
-    
+    myservo.attach(10);   //attaches the servo on pin 10 to the servo object
+    myservo.write(0);    
 }
 
 void loop() {
@@ -85,59 +89,89 @@ void loop() {
 
             if((currentPassword[0] == PASSWORD[0]) && (currentPassword[1] == PASSWORD[1]) && (currentPassword[2] == PASSWORD[2]) && (currentPassword[3] == PASSWORD[3]))
             {
-              lcd.setCursor(0,0);
-              lcd.clear();
-                lcd.print("1. Depo/Withdraw");
-                lcd.setCursor(0,1);
-                lcd.print("2. Check Balance");
-
-
-char input1 = keypad.getKey();     /*Get received character from keypad*/
-
-    
-          Serial.println(input1);
-          if(input1){
-            
+                Menu();
+                
           }
-                if(input1 = "1")
-                {
-                 do
-                 {
-                 lcd.clear();
-                 lcd.setCursor(0,0);
-                 lcd.print("1=5 2=10 4=20 5=50");
-                 lcd.setCursor(0,1);
-                 lcd.print("7=100 8=500 0=Exit");
-                 char userInput = keypad.getKey() ;
-                 Serial.println(userInput);
-                 switch(userInput)
-                 case "1": cashMoney =cashMoney+ 5; break;
-                 case "2": cashMoney =cashMoney+ 10; break; 
-                 case "4": cashMoney =cashMoney+ 20; break;
-                 case "5": cashMoney =cashMoney+ 50; break;
-                 case "7": cashMoney =cashMoney+ 100; break;
-                 case "8": cashMoney =cashMoney+ 200; break;
-                 case "0": break; 
-                 default: lcd.clear(); lcd.setCursor(0.0); lcd.print("Error");
-                }
-                 while(userInput != 0 )
-          }}
           else{
+            lcd.setRGB(255, 0, 0);
             lcd.setCursor(0,1);
-                lcd.print("NO!!!!!!!!!!!!!!!!!!!!");
+                lcd.print("Invalid PIN");
                 
                 for(int i=0; i<4; i++)
                 {
                   currentPassword[i] = 0; 
                 }
-                
-          }
+}
          }
           } 
           }
+          }
           
-    }
+void Menu()
+{
+              lcd.clear();
+              char key2 = keypad.getKey();     /*Get received character from keypad*/
+Serial.println(key2);
 
+          if(key2){
+          Serial.begin(9600);
+    // set up the LCD's number of columns and rows:
+    lcd.begin(16, 2);
+    lcd.setCursor(0,0);            /*Set the cursor to column 0*/
+    lcd.setRGB(colorR, colorG, colorB);
+
+                lcd.print("1. Depo/Withdraw");
+                lcd.setCursor(0,1);
+                lcd.print("2. Check Balance");
+          Serial.println(key2);
+      
+        
+         
+      
+         
+                       /*Print received character to LCD*/
+          
+          if(key2){
+          Serial.begin(9600);
+   
+           char userChoice = keypad.getKey(); 
+           userChoice = key2;
+              Serial.println(userChoice);
+        if(userChoice){
+          userChoice=key2;
+            Serial.begin(9600);
+            // set up the LCD's number of columns and rows:
+        
+            if (userChoice == '1')
+            {
+              lcd.clear();
+              char key3 = keypad.getKey();     /*Get received character from keypad*/
+
+    // set up the LCD's number of columns and rows:
+    lcd.begin(16, 2);
+    lcd.setCursor(0,0);            /*Set the cursor to column 0*/
+    lcd.setRGB(colorR, colorG, colorB);
+
+                lcd.print("1. Deposit");
+                lcd.setCursor(0,1);
+                lcd.print("2. Withdraw");
+          Serial.println(key3);
+
+          if(key3){
+          Serial.begin(9600);
+    
+           char userChoice2 = keypad.getKey();
+              Serial.println(userChoice);
+         
+          
+        
+        if(userChoice2){
+          userChoice2 = key3;
+            Serial.begin(9600);
+                
+            }
+            }
+}}}}}
 
 
 
