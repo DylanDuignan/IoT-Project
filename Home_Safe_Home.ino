@@ -47,7 +47,7 @@ void setup() {
 
 void loop() {
     char key = keypad.getKey();     /*Get received character from keypad*/
-
+        
     
           Serial.println(key);
 
@@ -63,6 +63,7 @@ void loop() {
      
       
         
+         
       
          if ((key >= '0') && (key <= '9'))
          {
@@ -108,69 +109,61 @@ void loop() {
           
 void Menu()
 {
+             
+              myservo.write(90);
+              lcd.setCursor(0,0);
               lcd.clear();
-              char key2 = keypad.getKey();     /*Get received character from keypad*/
-Serial.println(key2);
-
-          if(key2){
-          Serial.begin(9600);
-    // set up the LCD's number of columns and rows:
-    lcd.begin(16, 2);
-    lcd.setCursor(0,0);            /*Set the cursor to column 0*/
-    lcd.setRGB(colorR, colorG, colorB);
-
-                lcd.print("1. Depo/Withdraw");
+                lcd.print("1.$5 2.$10 4.$20");
                 lcd.setCursor(0,1);
-                lcd.print("2. Check Balance");
-          Serial.println(key2);
-      
-        
-         
-      
-         
-                       /*Print received character to LCD*/
-          
-          if(key2){
-          Serial.begin(9600);
-   
-           char userChoice = keypad.getKey(); 
-           userChoice = key2;
-              Serial.println(userChoice);
-        if(userChoice){
-          userChoice=key2;
-            Serial.begin(9600);
-            // set up the LCD's number of columns and rows:
-        
-            if (userChoice == '1')
-            {
-              lcd.clear();
-              char key3 = keypad.getKey();     /*Get received character from keypad*/
+                lcd.print("5.$50 7.$100");
+                /*char devid[] = "v963896FDE673C9F";
+                char serverName[] = "api.pushingbox.com";
+                boolean DEBUG = true;
+                #include <Bridge.h>
+                #include <HttpClient.h>
+                Serial.begin(9600);
+  while (!Serial); // wait for a serial connection
 
-    // set up the LCD's number of columns and rows:
-    lcd.begin(16, 2);
-    lcd.setCursor(0,0);            /*Set the cursor to column 0*/
-    lcd.setRGB(colorR, colorG, colorB);
+  // Initialize the client library
+  HttpClient client;
 
-                lcd.print("1. Deposit");
-                lcd.setCursor(0,1);
-                lcd.print("2. Withdraw");
-          Serial.println(key3);
+  //Setup sensorValue to read a value from Analog Port A0
+  char depositValueChoice = keypad.getKey();
+  int depositValue;
+  
+  switch(depositValueChoice)
+  {
+    case '1': depositValue = 5; break;
+    case '2': depositValue = 10;break;
+    case '4': depositValue = 20;break;
+    case '5': depositValue = 50;break;
+    case '6': depositValue = 100;break;
+    default: break;
+  }
+  //Testing value - when sensor is not connected - comment out when sketch is shown to be working - and take value from A0 instead
+  //sensorValue=1500;
 
-          if(key3){
-          Serial.begin(9600);
-    
-           char userChoice2 = keypad.getKey();
-              Serial.println(userChoice);
-         
-          
-        
-        if(userChoice2){
-          userChoice2 = key3;
-            Serial.begin(9600);
-                
-            }
-            }
-}}}}}
+  // Make a HTTP request:  
+  String APIRequest;
+  APIRequest = String(serverName) + "/pushingbox?devid=" + String(devid)+ "&IDtag=100&TimeStamp=50&TempC="+depositValue;
+  client.get (APIRequest);
+  
+  // if there are incoming bytes available
+  // from the server, read them and print them:
+  while (client.available()) {
+    char c = client.read();
+
+  }
+  Serial.flush();
+  String UploadMessage;
+  Serial.print("\n Uploaded temp value: ");
+  Serial.print(depositValue);
+  delay(5000);*/
+}
+            
+            
+            
+
 
 
 
